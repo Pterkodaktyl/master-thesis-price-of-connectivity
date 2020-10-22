@@ -1,0 +1,19 @@
+\begin{tikzpicture}%%minCDS 
+                \tikzstyle{vertex}  = [circle, minimum width=4pt, draw, inner sep=0pt, fill=white]
+                \node [vertex, fill=black](v1) at (2,4) {};
+                \node [vertex, fill=black](v2) at ($(v1)+(-30:3cm)$) {};
+                \node [vertex, fill=black](v3) at ($(v1)+(-90:3cm)$) {};
+                \node [vertex, fill=black](v4) at ($(v1)+(210:3cm)$) {};
+
+                \foreach \i in {2,...,4}{
+                        \node [vertex](x\i) at ($(v1)!0.33!(v\i)$) {};
+                        \node [vertex](y\i) at ($(v1)!0.66!(v\i)$) {};
+                        \node [vertex](l\i) at ($(v\i)+(0,-1)$){};
+                        \draw (v1)--(x\i)--(y\i)--(v\i)--(l\i);
+                }
+                \draw (x2)--(x3);
+                \draw (x3)--(x4);
+                \node [vertex](l1) at ($(v1)+(30:1cm)$){};
+                \draw (v1)--(l1);
+\end{tikzpicture}
+

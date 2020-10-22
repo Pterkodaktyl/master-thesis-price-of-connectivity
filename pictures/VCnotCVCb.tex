@@ -1,0 +1,18 @@
+\begin{tikzpicture}
+                \tikzstyle{vertex}  = [circle, minimum width=4pt, draw, inner sep=0pt, fill=white]
+                \node [vertex, fill=black](u1) at (1, 0) {};
+                \node [vertex, fill=black](v1) at (3, 0) {};
+                \node [vertex, fill=black](u2) at ($(u1) - (0, 1)$) {};
+                \node [vertex, fill=black](v2) at ($(v1) - (0, 1)$) {};
+                \node [vertex](x1) at ($(u1)!0.5!(v1) + (0, 1)$) {};
+                \node [vertex](x2) at ($(u2)!0.5!(v2) + (0, -1)$) {};
+                %%Edges
+                \draw (u1)--(u2);
+                \draw (u1)--(v2);
+                \draw (v1)--(v2);
+                \draw (v1)--(u2);
+		\draw (x1)--(u1);
+                \draw (x1)--(v1);
+                \draw (x2)--(u2);
+                \draw (x2)--(v2);
+ \end{tikzpicture}

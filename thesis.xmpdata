@@ -1,0 +1,30 @@
+% Metadata to be stored in PDF, see documentation of the pdfx package for more details.
+
+\Author{Tereza Hulcová}
+\Title{Price of connectivity of graph parameters}
+\Keywords{Graph theory\ Price of connectivity\ Connected vertex cover\ Connected dominating set}
+\Subject{A vertex cover of a given graph is a vertex set including at least one
+endpoint from every edge.  A vertex cover number tau is the size
+of a minimum vertex cover. If the vertices from a vertex cover are
+required to induce a connected subgraph, the resulting set is called a
+connected vertex cover.  The corresponding parameter tau_c is
+called a connected vertex cover number. The decision versions of both
+problems are NP-complete.
+To better understand a relation between these two vertex cover
+numbers, Cardinal and Levy define the price of connectivity as a ratio
+between tau_c and tau. It is not surprising that determining
+whether the price of connectivity of a given graph is at most t is
+NP-hard. The notion of price of connectivity can be extended for more
+graph properties, such as for the dominating set. The price of
+connectivity has already been investigated in several papers, with
+some focusing on critical graphs whose price of connectivity is
+strictly greater than the price of connectivity of every induced
+subgraph.
+This thesis provides an overview of the current state of research into
+the price of connectivity. Moreover, we focus on the structural
+properties of critical graphs for the price of connectivity for vertex
+cover and discuss a possible characterization of graphs in which the
+price of connectivity for a dominating set is at most 7/3.
+for every induced subgraph.
+}
+\Publisher{Charles University}

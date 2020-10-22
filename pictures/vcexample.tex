@@ -1,0 +1,19 @@
+%%Graph with definitions for VC and CVC
+
+        \begin{tikzpicture}
+
+		\tikzstyle{vertex}  = [circle, minimum width=14pt, draw, inner sep=0pt, fill=white]
+		%%Vertices
+		\node [vertex](a) at (1,1) {$a$};
+		\node [vertex](b) at ($(a) + (1, 0)$) {$b$};
+		\node [vertex](c) at ($(b) + (1, 0)$) {$c$};
+		\node [vertex](d) at ($(c) + (1, 0)$) {$d$};
+		\node [vertex](e) at (1,0) {$e$};
+		\node [vertex](f) at ($(e) + (1, 0)$) {$f$};
+		\node [vertex](g) at ($(f) + (1, 0)$) {$g$};
+		\node [vertex](h) at ($(g) + (1, 0)$) {$h$};
+		%%Edges
+		\draw (a)--(e)--(f)--(b)--(c)--(g)--(h)--(d);
+		\draw (f)--(b)--(g);
+		\draw (f)--(c);
+	\end{tikzpicture}

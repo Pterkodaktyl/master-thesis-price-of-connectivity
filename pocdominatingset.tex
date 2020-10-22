@@ -1,0 +1,638 @@
+\chapter{Price of connectivity for dominating set}\label{chap4}
+
+\begin{defn}
+A \emph{dominating set} of a graph \(G\) is a subset of vertices \(D\) such that every vertex has a neighbor in \(D\)
+or is in \(D\).
+The size of the smallest dominating set is denoted by \(\gamma_c(G)\) and a dominating set of this size is called \emph{minimum}.
+\end{defn}
+
+\begin{problem}
+        \problemtitle{Dominating set (DS)}
+        \probleminput{A graph \(G = (V,E)\) and a positive integer \(k\)}
+        \problemquestion{Does \(G\) have a dominating set \(D\), such that \(|D| \leq  k\)?}
+\end{problem}
+
+The decision version of the dominating set problem for a given graph \(G\) is a well studied NP-problem. %%reference na tu ucebnici
+To get acquainted with the problem, we show its NP-completeness by a reduction from vertex cover.
+
+\begin{thm}
+	The dominating set problem is NP-complete \cite{GareyJohnson79}.
+\end{thm}
+\begin{myproof}
+We prove a slightly stronger statement: For every graph \(G\) there
+exists a graph \(G'\) such that every vertex cover of \(G\) of size $k$ corresponds
+to a vertex cover in \(G'\) of size \(k+1\), and that \(G'\) has a vertex cover of size at most $c$
+if and only if \(G'\) has a dominating set of size at most $c$.
+
+We first handle isolated vertices of \(G\), which always belong to a dominating set but never belong
+to a vertex cover. Starting with \(G\), we construct a new graph \(G''\) that contains edges and vertices from \(G\) plus two additional vertices
+\(x\) and \(y\). Additionally, we add the edge \(xy\) and an edge \(xv\) for every vertex \(v \in V(G)\).
+
+Observe that \(G''\) has a vertex cover of size at most \(k + 1\) iff
+\(G\) has a vertex cover of size at most \(k\), and that in \(G''\)
+there are no more isolated vertices.
+
+We construct our final graph \(G'\) as follows: To start, the graph \(G'\)
+contains all vertices and edges from \(G''\).  For every edge \(uv\)
+from \(E(G'')\), we add a new vertex \(w\) and edges \(uw\), \(vw\).  We
+have to prove that \(G''\) has a vertex cover of size at most \(k\) if
+and only if \(G'\) has a dominating set of size at most \(k\).  First,
+suppose that \(G''\) has a vertex cover \(S\) of size \(k\).  The set
+\(S\) contains at least one endpoint from each edge, so the original
+vertices from \(G''\) are dominated.  The vertices representing edges of
+the original graph are adjacent to two vertices, one of which is in
+\(S\).  Thus, these vertices are also dominated.
+
+Conversely, let \(D\) be a dominating set of \(G'\).  Notice that if
+\(D\) includes a vertex \(w\) added for an edge \(uv\), we can replace
+it by \(u\) or \(v\); we are allowed to do this as vertex \(w\)
+dominates only \(u\), \(v\) and these three vertices induce a
+triangle.  Since every additional vertex is dominated, such a modified
+dominating set \(D\) contains at least one endpoint from every edge.
+The set \(D'\) is vertex cover of size at most \(k\) of \(G''\).
+\end{myproof}
+
+\section{Dominating set and independence}
+The size of a minimum dominating set that is also independent is called the \emph{independent domination number} and denoted by \(i(G)\).
+The \emph{upper domination number} \(\Gamma(G)\) is the size of the largest minimal dominating set.
+From these definitions we can immediately see that \(\gamma(G) \leq i(G) \leq \alpha(G)\).
+
+\begin{obs}\label{DS:InDo}
+	An independent set \(S\) is maximal independent if and only if it is independent and dominating.
+\end{obs}
+\begin{myproof}
+	Suppose that \(S\) is a maximal independent set. For any vertex \(v\) from \(V(G) \setminus S\) the set \(S \cup \{v\}\) is no longer independent,
+	which means that every vertex in \(V(G) \setminus S\) is adjacent to at least one vertex from \(S\).
+	Hence, \(S\) is a dominating set.
+	
+	On the contrary, let \(S\) be a dominating and independent set and suppose that it is not maximal.
+	There is a vertex \(u\) from \(V(G) \setminus S\) such that \(S \cup \{u\}\) is independent.
+	However, \(S\) is not dominating because \(u\) does not share any edge with vertex from \(S\). 
+	This is a contradiction.
+\end{myproof}
+
+Berge in his book \cite{Berge62} observed that a vertex set is maximal independent if it is minimal dominating set.
+
+\begin{obs}[\cite{Berge62}]
+	Every maximal independent set in a graph \(G\) is a minimal dominating set of \(G\).
+\end{obs}
+
+\begin{myproof}
+	Let \(S\) be a maximal independent set in \(G\). By Observation~\ref{DS:InDo} \(S\) is a dominating set.
+	For the sake of contradiction suppose that \(D\) is not a minimal dominating set.
+	In \(S\) there is a vertex \(v\) such that the set \(S \setminus \{v\}\) is dominating.
+	If the set \(S \setminus \{v\}\) dominates vertices from \(V \setminus S \setminus \{v\}\), then at least one vertex from
+	\(S\) must be adjacent to \(v\) and \(S\) is not independent, which leads to a contradiction.
+\end{myproof}
+
+A direct corollary of this observation is the following inequality which is a part of the so-called \emph{domination chain}.
+For more information on the chain we refer to Chapter 3 of the book \cite{HaynesHedetniemiSlater98} written by Haynes, Hedetniemi and Slayter.
+\begin{cor}
+	For any graph \(G\)\:
+	\[\gamma(G) \leq i(G) \leq \alpha(G) \leq \Gamma(G).\]
+\end{cor}
+
+The domination chain does not need to be strict; if there is a graph \(G\) for which every induced subgraph \(H\) satisfies \(i(H) = \gamma(G)\),
+we call such graph is called \emph{domination perfect}.
+The domination perfect graphs were defined by Sumner and Moore in 1979~\cite{SummerMoore79} who were inspired by a notion of perfect graphs.
+% Since then, there were several attempts to characterize this class.
+The characterization of the class was open for some time. Finally, in 1995, Zverovich and Zverovich~\cite{ZverovichZverovich95} found a characterization in terms of 17 forbidden induced subgraphs.
+Aside from the above, many other variants of domination are also investigated. The focus will be on one of them, namely connected domination.
+
+\section{Connected dominating set}
+
+\begin{defn}
+	A \emph{connected dominating set} of a graph \(G\) is a dominating set \(D\) such that \(G[D]\) is connected.
+	The size of the smallest dominating set is denoted by \(\gamma_c(G)\) and a connected dominating set of the size \(\tau_c(G)\) is called 
+	a minimum connected dominating set.
+\end{defn}
+
+A connected dominating set can exist only in connected graphs (a DS must include at least one vertex from each connected component).
+Sampathkumar and Walikar, who were among the first researchers investigating connected domination, observe in \cite{SampathkumarWalikar79}
+the following property of the connected domination number:
+
+\begin{thm}[\cite{SampathkumarWalikar79}]
+	Let \(G\) be a graph and \(H\) its spanning subgraph.
+	Then, \(\gamma_c(G) \leq \gamma_c(H)\).
+\end{thm}
+
+Another interesting property of connected dominating sets regarding spanning trees is the following.
+\begin{thm}\cite{HedetniemiLaskar84}
+	Let \(G\) be a graph on \(n \geq 3\) vertices.
+	Denote the maximum number of leaves over all spanning trees of \(G\) by \(\epsilon_T(G)\).
+	Then, \(\gamma_c(G) = {(n - \epsilon_T(G))} \leq n-2\).
+\end{thm}
+
+\begin{myproof}
+	Let \(T\) be a spanning tree with \(\epsilon_T(G)\) vertices. Since \(T\) without leaves is a connected dominating set of \(G\)
+	the following inequality follows: \(\gamma_c(G) \leq {n - \epsilon_T(G)}.\)
+	
+	Suppose that \(D\) is a connected dominating set of \(G\). 
+	The set \(D\) is connected and thus it has a spanning tree \(T'\).
+	We can add all vertices from \(V(G) \setminus D\) to \(T'\) in such a way that each remaining vertex has only one edge to \(T'\).
+	We created a new spanning tree \(T\) of the entire graph \(G\). The number of added vertices is at most \(\epsilon_T(G)\).
+	The size of a minimum connected dominating set is at least \({n - \epsilon_T(G)}\).
+\end{myproof}
+
+Camby and Schaudt discovered in \cite{CambySchaudt16} that any minimal connected dominating set in \(P_t\)-free graph
+is either isomorphic to \(P_{t-2}\), or it does not contain \(P_{t-2}\) as an induced subgraph.
+This theorem was used in several papers to design polynomial algorithms in \(P_t\)-free graphs.
+Specifically, Johnson, Paesani and Paulusma~\cite{JohnsonPaesaniPaulusma20} use it to construct an efficient algorithm for finding a minimum connected vertex cover in \((sP_1 + P_5\))-free graphs
+and Bonomo et. al.~\cite{Bonomo18} apply it to create a polynomial algorithm determining whether a given \(P_7\)-free graph is three colorable.
+Moreover, in the same paper, Camby and Schaudt show that a connected dominating set with these properties can be found in polynomial time.
+
+\begin{thm}\label{DS:P-2freeT}
+	For all \(t \geq 3\), any connected \(P_t\)-free graph has a connected dominating set whose induced subgraph is either \(P_{t-2}\)-free, 
+	or isomorphic to \(P_{t-2}\).
+\end{thm}
+
+We will not show their proof in its entirety. 
+Instead we will explain to a reader a proof of a weaker lemma which is used in the original proof by Camby and Schaudt.
+What is more, this lemma will come in handy later in proofs of Theorems~\ref{DSpoc:2} and \ref{DSpoc:3} characterizing Near-PoC-perfect graphs for dominating set.
+\begin{lemma}\label{DS:P-2free}
+Let \(G\) be a connected graph that is \((P_k , C_k )\)-free for some \(k \geq 4\) and
+let \(X\) be a minimal connected dominating set of \(G\). Then \(G[X]\) is \(P_{k-2}\)-free.
+\end{lemma}
+\begin{myproof}
+	Let \(X\) be a minimum connected dominating set of \(G\).
+	On the contrary suppose that \(X\) contains an induce path \(v_1, \dots, v_{k-2}\).
+	Look at the set \(X \setminus \{v_1\}\).
+	Because \(X\) is a minimum dominating set, \(X \setminus \{v_1\}\) is not dominating or not connected.
+	In the first case in \(G\) there is a vertex \(v'_1\) adjacent only to one vertex from \(X\):\(v_1\).
+	
+	In the second case vertices \(v_2, \dots, v_{k-2}\) are all in one connected component. 
+	Vertex \(v_1\) has a neighbor \(v'_1\) in a different connected component.
+	In both cases \(v_1\) has a neighbor that is not adjacent to any from the vertices \(v_2, \dots v_{k_2}\).
+	We can use the same reasoning for a vertex \(v_{k-2}\).
+	Vertices \(v'_1, v_1, \dots, v_{k-2}, v'_{k-2}\) induce path or cycle on \(k\) vertices which contradicts
+	the fact that \(G\) is \((P_k, C_k)\)-free.
+\end{myproof}
+
+\section{Price of connectivity}
+We can define price of connectivity for dominating set in the same way as we did for vertex cover in \Cref{chap3}.
+\begin{defn}
+	For a graph \(G\), the price of connectivity (PoC) for dominating set is defined as the ratio \(\frac{\gamma_c(G)}{\gamma(G)}\).
+\end{defn}
+
+\begin{obs}
+	The price of connectivity for any graph lies in the interval \([1, 3)\).
+\end{obs}
+
+\begin{myproof}
+	Let \(D\) be a dominating set of \(G\) such that \(G[D]\) consists of \(c\) connected components.
+	To make \(D\) connected it is enough to add at most \(2c - 2\) vertices. The distance between vertices in \(D\) is at most \(2\),
+	since \(D\) is dominating.
+	Assume that minimum dominating set of \(D\) has size \(k\).
+	Using the previous observation:
+	\[\frac{\gamma_c(G)}{\gamma(G)} \leq {\frac{k(2c - 2)}{k}} \leq {\frac{c(2c-2)}{c}} = {\frac{3c - 2}{c}} < 3.\]
+\end{myproof}
+Paths and cycles are examples of graphs attaining these bounds. Analogously, we can define PoC-perfect and PoC-near-perfect graphs for the dominating set:
+
+\begin{defn}
+	Graph \(G\) is \emph{PoC-perfect} if for every subgraph \(H\) of \(G\) it holds \(\gamma_c(H) = \gamma(H)\).
+\end{defn}
+
+\begin{defn}
+	Graph \(G\) is \emph{PoC-near-perfect} with a threshold \(t \in (1, 3)\) if for every subgraph \(H\) of \(G\) this inequality holds \(\frac{\gamma_c(H)}{\gamma(H)} \leq t\).
+\end{defn}
+Zverovich in \cite{Zverovich03} provides characterization of PoC-perfect graphs.
+\begin{thm}[\citet{Zverovich03}]\label{DSpoc:1}
+The following assertions are equivalent:
+\begin{enumerate}
+	\item For a given graph \(G\) and every connected subgraph \(H\) it holds: \(\gamma_c(H) = \gamma(H).\)
+	\item Graph \(G\) is \((P_5, C_5)\)-free.
+\end{enumerate}
+\end{thm}
+Camby and Schaudt continue this line of research and in \cite{CambySchaudt14} they give a forbidden subgraphs characterization of PoC-near-perfect graphs 
+with \(\gamma_c(H) \leq {\gamma(H) + 1}\):
+\begin{thm}[\citet{CambySchaudt14}]\label{DSpoc:2}
+	For every connected subgraph \(H\) of a graph \(G\) the inequality \(\gamma_c(H) \leq {\gamma(H) + 1}\) holds if and only if
+	\(G\) is \((P_6, C_6)\)-free.
+\end{thm}
+
+\begin{myproof}
+It is easy to see that \(\gamma(C_6) = \gamma(P_6) = 2\) and \(\gamma_c(C_6) = \gamma_c(P_6) = 4\).
+These two graphs violate the inequality \(\gamma_c(H) \leq {\gamma(H) + 1}\) and therefore they cannot be induced subgraphs of \(G\).
+
+Assume that \(G\) is \((P_6, C_6)\)-free.
+Consider any connected induced subgraph \(H\) of \(G\). Observe that \(H\) is also \((P_6, C_6)\)-free.
+To prove the sufficiency of our condition, we need to show that \(H\) satisfies \(\gamma_c(H) \leq {\gamma(H) + 1}\).
+Let \(D\) be a minimum dominating set of \(H\) with connected components \(D_1, \dots, D_k\).
+The set \(D\) must have at least two connected components, otherwise \(\gamma_c(H) = \gamma(H)\) and we are done.
+Consider the smallest set of vertices \(C\) such that \(H[D \cup C]\) is connected.
+Denote \(X\) a minimum connected dominating set of \(H[D \cup C]\). We know that \(\gamma_c(H) \leq |X|\).
+	Define the set of indices \(I = \{i \subseteq \{1, \dots, k\}: D_i \cap X = \emptyset\}\). For each \(i \in I\) consider \(x_i \in X\) such that
+\(x_i\) is adjacent to a vertex from \(D_i\). Such vertex exists because \(X\) is dominating. The vertices \(x_i\) are all from \(C\)
+and they do not have to be distinct.
+Define the set \(S \subseteq X\):
+	\[S = \bigcup_{i \not\in I}{D_i \cap X} \cup \{x_j: j \in I\}.\]
+The size of \(S\) is by definition at most
+	\[ \sum_{i \not\in I}{|D_i \cap X|} + |I|\]
+and that is at most \(|D|\).
+A minimum dominating set has to include at least one vertex from every component.
+
+We distinguish between two cases according to connectivity of \(H[S]\).
+
+Suppose that \(H[S]\) is connected. Then \(H[D \cup \{x_j : j \in I\}]\) is connected and \(C\) contains only vertices \(x_j\).
+Recall that \(C\) is a minimal set with this property.
+In this case \(X = S\) and this yields:
+	\[\gamma_c(H) \leq |X| = |S| \leq {\sum_{i \not\in I}{|D_i \cap X|} + |I|} \leq |D| = \gamma(H).\]
+
+\(H[S]\) is not connected.
+By Lemma~\ref{DS:P-2free} \(H[X]\) is \(P_4\)-free. 
+It is known that \(P_4\)-free graphs on at least two vertices are either disconnected or
+their complement is disconnected \cite{Corneil81}
+Specifically, it means that the graph \(\overline{H[S]}\) is connected.
+Since \(H[X]\) is connected, the graph \(\overline{H[X]}\) is disconnected and it contains the set \(S\) in one connected component and a nonempty set of vertices \(Y\)
+which are not adjacent to any vertex from \(S\).
+What can we say about structure of graph \(H[X]\)? 
+In \(X\), each vertex in \(Y\) is adjacent to every vertex from \(S\).
+Thus, we can pick any vertex from \(y \in Y\) such that \(H[D \cup \{x_j: j \in I\} \cup \{y\}]\) is connected.
+So \(|C| = \{x_j: j \in I\} \cup \{y\}\) and \(X = S \cup \{y\}\).
+This gives us: 
+	\[\gamma_c(H) \leq {|X| + 1} = {|S| + 1} \leq {\sum_{i \not\in I}{|D_i \cap X|} + |I| + 1} \leq {|D| + 1} = \gamma(H) + 1.\]
+This concludes the proof.
+\end{myproof}
+To see that this bound is sharp, we consider the graphs \(F_k\) which are constructed from \(K_{1, k}\)
+by subdividing every edge once. See Figure \ref{pic:fks} for an illustration.
+
+\begin{figure}
+        \centering
+        \begin{minipage}{.5\textwidth}
+                \centering
+                \input{pictures/DSpocfksDS}
+                \caption*{}
+        \end{minipage}%
+        \begin{minipage}{.5\textwidth}
+                \centering
+                \input{pictures/DSpocfksCDS}
+                \caption*{}
+        \end{minipage}
+	\caption{Graph \(F_k\) for \(k=4\)
+	with minimum dominating set and minimum connected dominating set indicated by black vertices.}
+        \label{pic:fks}
+\end{figure}
+
+Camby and Schaudt~\cite{CambySchaudt14} also attempt to characterize PoC-near-perfect graphs with a parameter \(t=2\),
+presenting the following theorem:
+
+\begin{thm}[\citet{CambySchaudt14}]\label{DSpoc3}
+For every \((P_8 , C_8)\)-free graph \(G\), it holds that
+	\(\gamma_c(G) \leq 2 \gamma(G).\)
+\end{thm}
+The same authors in \cite{CambySchaudt14} and in \cite{Camby19} proposed a conjecture how to characterize all PoC-near-perfect graphs
+with parameter \(t = 2\). Recently Bonamy et al. in \cite{Bonamy18} prove that their conjecture was correct:
+\begin{thm}[\citet{Bonamy18}]\label{DSpoc:3}
+The following assertions are equivalent:
+\begin{enumerate}
+	\item For a graph \(G\) and every induced subgraph \(H\) it holds: \(\gamma_c(H) \leq 2\gamma(H).\)
+	\item The graph \(G\) is \((C_9, P_9, F)\)-free.
+\end{enumerate}
+\end{thm}
+
+\begin{figure}
+	\centering
+        \input{pictures/graph_f}
+	\caption{Graph \(F\) from Theorem~\ref{DSpoc:3}.}
+	\label{DS:graphF}
+\end{figure}
+The remaining question is how to characterize PoC-near-perfect graphs for different values of parameter \(t\).
+The construction of forbidden subgraphs from the previous theorems can be generalized in the following way:
+\begin{defn}\label{DS:tk}
+	Class of graphs \(\mathcal{T}_k\) consist of all graphs created as follows:
+	\begin{itemize}
+		\item Start with any tree on \(k\) vertices. Denote these nodes \(v_1, v_2, \dots, v_k\).
+		\item Subdivide each edge twice.
+		\item To each original leaf, we attach a new vertex (which becomes the new leaf).
+		\item The vertices \(N(v_i)\) may be connected by new edges if \(v_i\) is not adjacent to a leaf. 
+                  If at any point \(N(v_i)\) induces a connected graph, we add a new leaf to \(v_i\)
+                  and we do not add any more edges into \(N(v_i)\).
+		\item Finally, we may add a set $M$ of edges among leaves if $M$ is a (not necessarily maximal)
+                  matching.
+	\end{itemize}
+\end{defn}
+
+\begin{obs}\label{ds:7}
+	For any graph \(G_k\) from \(\mathcal{T}_k\), the domination number \(\gamma\) is equal to \(k\)
+	and \(\gamma_c(G_k) = 3k - 2\).
+\end{obs}
+\begin{myproof}
+Observe that vertices \(v_i\) dominate all vertices from \(V(G_k)\), and so \(\gamma \leq k\).
+Since the closed neighborhoods of individual vertices \(v_i\) are disjoint and any dominating set must
+contain at least one vertex from each \(N[v_i]\), we have \(\gamma \geq k\).
+
+The size of a minimum connected dominating set is at most \(3k-2\). 
+Let us take a minimum dominating set that contains all vertices \(v_i\).
+To make this dominating set connected, we need to add all vertices except leaves.
+Number of edges in the initial tree is \(k - 1\), in the second step we added two vertices for each edge.
+The total sum is \(k + (2k - 1) = 3k - 2\).
+
+To finish the proof it remains to show that the size of a minimum connected dominating set is at least \(3k - 2\).
+We consider a minimum connected dominating set \(D\).
+If \(D\) contains all vertices \(v_i\) from the discussion above it follows that the size of \(D\) is at least \(3k-2\).
+
+Assume that a vertex \(v_j\) is not in \(D\).
+Moreover, we  suppose that \(v_j\) is adjacent to a leaf \(l_1\) and a vertex \(x_1\).
+The situation is the following. 
+The set \(D\) dominates \(l_1\); thus, there is a leaf \(l_2\) in \(D\) adjacent to \(l_1\).
+From the construction of \(G_k\) we can see that all leaves are adjacent to the vertices \(v_i\).
+In particular \(l_2\) is adjacent to a vertex \(v_m\). For an illustration see Figure~\ref{DS:DSTk}.
+At least one vertex from a pair \(x_1\), \(l_1\) must be in \(D\), otherwise \(v_j\) is not dominated by \(D\).
+Vertices \(l_2\), \(v_m\) and \(x_2\) are in \(D\).
+Since edges on leaves induce a matching we can modify \(D\) in such a way that it includes \(v_j\)
+and has at most the same size. Namely we \(D\) vertices \(v_j, x_1\) and remove \(l_1\).
+
+Suppose that vertex \(v_j\) is not adjacent to any leaf.
+In that case \(N(v_j)\) does not induce a connected subgraph.
+Vertex \(v_j\) is dominated by a vertex \(w\). 
+Denote by \(C_1\) a connected component of \(N(v_j)\).
+In the neighborhood of \(v_j\) there is another connected component \(C_2\).
+Denote by \(w'\) a vertex from \(D\) that has a neighbor in \(C_2\).
+Such vertex exists because vertices from \(C_2\) needs to be dominated by \(D\).
+Let \(w''\) be a common neighbor of vertices \(v_j\) and \(w'\).
+Since subgraph \(H[D]\) is connected, it contains a path \(P\) from \(w\) to \(w'\).
+The path \(P\) must contain an edge between two leaves \(l_1\) and \(l_2\).
+We remove \(l_1\) and \(l_2\) from \(D\) and add vertices \(v_j\), \(w''\) instead.
+Notice that such modified \(D\) is still a connected dominating set and
+the size is at most the same as before.
+For reference see Figure \ref{DS:DSTk}.
+\end{myproof}
+
+\begin{figure}
+        \centering
+	\begin{minipage}{.5\textwidth}
+                \centering
+                \input{pictures/DSTks}
+		\caption*{}
+        \end{minipage}%
+	\begin{minipage}{.5\textwidth}
+                \centering
+                \input{pictures/DSTksb}
+                \caption*{}
+        \end{minipage}%
+
+	\caption{Illustration to the proof of Observation~\ref{ds:7}. Red vertices are in a connected dominating set \(D\)}
+        \label{DS:DSTk}
+\end{figure}
+
+A direct corollary of this observation is that for any graph \(G_k\) from \(\mathcal{T}_k\) the ratio
+\(\frac{\gamma_c(G)}{\gamma(G)}\) is at most \(3 - \frac{2}{k}\).
+\begin{conj}[\citet{Bonamy18personal}]\label{DS:conj}
+Let \(G\) be a graph.
+For each subgraph \(H\) of \(G\) it holds: \({\frac{\gamma_c(H)}{\gamma(H)}} \leq {3 - \frac{2}{k - 1}}\)
+if and only if \(G\) is \(\mathcal{T}_k\)-free.
+\end{conj}
+Let us look at graphs from \(\mathcal{T}_k\) for various values of \(k\).
+\begin{itemize}
+	\item \(k = 2.\)
+		The class \(\mathcal{T}_2\) contains only graphs \(C_6\) and \(P_6\) which are forbidden subgraphs from Theorem~\ref{DSpoc:2}.
+	\item \(k = 3.\)
+		The class \(\mathcal{T}_3\) includes \(C_9\), \(P_9\), \(F\).
+		Their PoC is \(\frac{7}{3}\) and they are forbidden subgraphs for graphs with PoC at most \(2\) from Theorem~\ref{DSpoc3}.
+	\item \(k = 4.\)
+		Some examples of graphs from  \(\mathcal{T}_4\) are \(P_{12}\), \(C_{12}\) and graphs derived from a star on \(4\) vertices (see Figure~\ref{pic:T4}).
+\end{itemize}
+\begin{figure}
+        \centering
+        \begin{minipage}{.5\textwidth}
+                \centering
+                \input{pictures/DSpocT4a}
+                \caption*{}
+        \end{minipage}%
+        \begin{minipage}{.5\textwidth}
+                \centering
+                \input{pictures/DSpocT4b}
+                \caption*{}
+        \end{minipage}
+        \caption{An example of graphs from \(\mathcal{T}_4\)
+        with vertices \(v_i\) indicated by black vertices.}
+        \label{pic:T4}
+\end{figure}
+
+Note that not all graphs from \(\mathcal{T}_i\) are necessary critical. 
+The construction from \Cref{DS:tk} allows the existence of subgraphs with the PoC equal or greater than \(3 - \frac{3}{k}\), namely 
+an addition of edges to the neighborhood of \(v_i\) together with edges between leaves can create long induced paths.
+This fact does not contradict our conjecture, it only means that our characterization is not minimal.
+
+Unfortunately we will show that \Cref{DS:conj} is not true even for \(k = 3\).
+To establish that we will show construction of critical graphs with PoC greater than \(3 - \frac{3}{k-1}\) without forbidden subgraphs from \(\mathcal{T}_i\).
+\begin{thm}\label{DSpoc:4}
+Let \(G_d\) be a graph with \(\gamma(G_d) = d\) constructed like this:
+\begin{itemize}
+	\item Start with a star on \(k\) vertices with central vertex \(v\).
+	\item Add edges such that \(N(v)\) induces \(K_{\ceil{\frac{d-1}{2}}, \floor{\frac{d-1}{2}}}\). 
+	\item To every vertex from the bipartite graph add a path on three vertices.
+\end{itemize}
+	Then for \(d = 5\) and \(d > 6\), the graph \(G_d\) is critical and we have \(\frac{\gamma_c(G_d)}{\gamma(G_d)} = {3 - \frac{3}{d}}\).
+\end{thm}
+
+\begin{figure}
+	 \centering
+         \input{pictures/example}
+	 \caption{An example of a graph from Theorem~\ref{DSpoc:4} for $d = 5$.}
+\end{figure}
+
+\begin{proof}
+	The size of a minimum connected dominating set of graph \(G_d\) is \(3d - 3\). It must include two vertices from each \(P_3\) and the whole bipartite subgraph.
+	The minimum dominating set contains one vertex from each \(P_3\) and vertex \(v\).
+	
+	It remains to prove that \(G_d\) is a critical graph.
+	In other words, every proper subgraph \(H\) must have a strictly smaller PoC than \(G_d\). 
+	Due to relatively simple structure of \(G_d\) we analyze all possibilities of the subgraphs.
+	For the rest of the proof we assume that the subgraph \(H\) is connected; the price of connectivity
+        is defined only for connected graphs.
+	Before diving deeper into the case analysis, we wish introduce some notation.
+	
+	Vertices of graph \(G_d\) can be divided into the following sets:
+	\begin{itemize}
+		\item \(P:=\) the set of vertices from \(P_3\) added in the last step of the construction.
+		\item \(B_1, B_2 :=\) the sets of vertices from each part of the bipartite graph from the second step.
+		\item \(v :=\) the central vertex of \(G_k\).
+	\end{itemize}
+	The number of induced paths with at least two vertices in \(P \cap V(H)\) is denoted by \(l\),
+	the number of paths with one vertex in \(P \cap V(H)\) is denoted by \(s\).
+
+	We will distinguish between several cases according to the structure of the subgraph \(H\).
+	\begin{enumerate}
+		\item [Case 1.] \(H \cong P_9.\)
+
+		The price of connectivity of \(P_9\) is equal to \(\frac{7}{3}\).
+        	To ensure criticality of \(G_d\), we need to set the value \(d\) such that the PoC of \(P_9\) is smaller than the PoC of \(G_d\).
+        	\[\frac{\gamma_c(G_d)}{\gamma(G_d)} > \frac{7}{3}.\] 
+        	This inequality implies that \(d\) must be greater than \(4\).
+		We observe that \(P_9\) is the longest possible induced path in \(G_d\).
+
+		\item [Case 2.] \(V(H) \cap P = \emptyset.\)
+			
+		In this case \(\frac{\gamma_c(H)}{\gamma(H)} = 1\).
+		Vertices from the bipartite subgraph are dominated by either the vertex \(v\), or at most two adjacent vertices.
+	\end{enumerate}
+		
+		The set of vertices \(H \cap P\) is nonempty. What does a minimum dominating set of \(H\) look like?
+		In any dominating set, there must be at least one vertex from \(P\) for each long path and at least one vertex from \(B\) to dominate the short path.
+		The minimum connected dominating set contains at most two vertices from \(P\) and one vertex from \(B\) for each path in \(H \cap P\).
+		We distinguish between the following cases according to the number of short paths and the presence of vertex \(v\) in \(H\).
+	\begin{enumerate}
+		\item[Case 3.] \(s = 0\) and \(v \in H\).
+                Every long path and the vertex \(v\) needs to be dominated, and so the size of a minimum dominating set of \(H\) is at least \(l + 1\).
+                Suppose that the vertices from a minimum CDS of \(H\) (which dominate the vertices on the long paths from \(P \cap H\))
+                include some from both parts \(B_1\) and \(B_2\).
+		Thus \(\gamma_c(H) \leq 3l\).
+
+		\[\frac{\gamma_c(H)}{\gamma(H)} \leq {\frac{3l}{l + 1}} = {3 - \frac{3}{l + 1}}.\]\label{case3s=0a}
+
+		The last expression is increasing in \(l\) and \(l \leq d + 1\), so it is at most \(3 - \frac{3}{d}\).
+		For smaller values of \(l\) the PoC of \(H\) is strictly smaller than \(3 - \frac{3}{d}\).
+		When \(l\) is equal to \(d - 1\), at least one long path has one vertex not in \(H\), otherwise \(H \cong G\).
+		Thus, we can improve the bound to:
+		\[\frac{3l - 1}{l + 1} \leq {3 - \frac{4}{d}} < {3 - \frac{3}{d}}.\]\label{case3s=0b}
+
+		In case that vertices from \(B\) adjacent to vertices from \(P \cap H\) are from the same part \(B_i\),
+		the CDS contains one additional vertex that connects vertices from \(B_i\).
+		Thus,  \(\gamma_c(H) \leq 3l + 1\) and we have:
+		
+		\[\frac{\gamma_c(H)}{\gamma(H)} \leq {\frac{3l + 1}{l + 1}} = {3 - \frac{2}{l + 1}}.\]	
+		The number of paths with vertices from \(V(H) \cap P\)\ is at most \(\ceil{\frac{d - 1}{2}}\), which we plug in:
+		\[{3 - \frac{2}{l + 1}} \leq {3 - \frac{2}{\frac{d + 2}{2}}} = {3 - {\frac{4}{d + 2}}} < 3 - \frac{3}{d}.\]
+
+		The rightmost inequality is satisfied for \(d > 6\).
+		This bound is not sharp for odd \(d\).
+		The number of long paths is at most \(\frac{d-1}{2}\). 
+		Using this bound yields the same result as before for \(d > 3\).
+	
+		\item [Case 4.] \(s \geq 2\) and \(v \in H\).
+		
+		The size of the minimum dominating set is at least \(l + s\).
+		In the same manner as before, we distinguish several cases according to the size of a minimum connected dominating set.
+			\begin{itemize}
+				\item \(\gamma_c(H) \leq {3l + s}\). We compute:
+
+				\[\frac{\gamma_c(H)}{\gamma(H)} \leq {\frac{3l + s}{l + s}} = {3 - \frac{2s}{l + s}} \leq {3 - \frac{4}{d - 1}} < {3 - \frac{3}{d}}.\]
+				We have used that \(s\) is at least two.
+			
+				\item \(\gamma_c(H) \leq {3l + s + 1}\). In this situation all paths are adjacent to vertices from the same part of \(B\):
+				\[\frac{\gamma_c(H)}{\gamma(H)} \leq {\frac{3l + s + 1}{l + s}} = {3 - \frac{2s - 1}{l + s}} \leq {3 - \frac{3}{l + s}}.\]
+
+				The number of paths is at most \(\frac{d}{2}\).
+				\[{3 - \frac{3}{l + s}} \leq {3 - \frac{6}{d}} < {3 - \frac{3}{d}}.\]
+			\end{itemize}
+
+		\item  [Case 5.] \(s = 1\) and \(v \in H\). We distinguish three subcases:
+		
+			\begin{itemize}
+			\item All long paths on vertices \(V(H) \cap P\) are adjacent to one part \(B_i\).
+				
+			For a minimum connected dominating set, the inequality \(\gamma_c(H) \leq 3l + 2\) holds.
+			By assuming \(s = 1\), a minimum connected dominating set includes a vertex from \(B\) dominating the short path. 
+			Aside from this vertex, a minimum CDS also contains at most 3 vertices from each long path and at most one vertex from \(B\). 
+			In particular, if one extra vertex from \(B\) is needed, then all paths on vertices \(P \cap V(H)\) are adjacent to vertices either from \(B_1\), or \(B_2\).
+                        We calculate:
+
+			\[{\frac{\gamma_c(H)}{\gamma(H)}} \leq {\frac{3l + 1}{l + 1}} = {3 - \frac{4}{d}} \leq {3 - \frac{3}{d}}.\]
+			The last inequality holds for \(d > 0\).
+			
+			\item \(P \cap H\) induce two \(P_3\) adjacent to different parts of \(B\), or all paths \(H[V(H) \cap P]\) are adjacent to \(B_i\).
+		
+			This assumption implies that the size of minimum dominating set is at least \(l + 2\).
+			From our estimates it follows that
+			\[{\frac{\gamma_c(H)}{\gamma(H)}} \leq {\frac{3l + 2}{l + 2}} = {3 - \frac{4}{d}} < {3 - \frac{3}{d}}.\]
+
+			
+			\item The paths of length 3 with vertices from \(P \cap H\) are adjacent to one part of \(B\).
+			The size of a minimum connected dominating can be expressed by:
+				\[\gamma_c(H) = {3l_3 + 2l_2 + 1},\]
+				where \(l_3\) is the number of \(P_3\) and \(l_2\) the number of \(P_2\) in \(H[V(H) \cap P]\).
+			By our assumption, \(l_3\) is at most \(\ceil{\frac{d - 1}{2}} \leq {\frac{d}{2}}\).
+			Similarly \(l_2 \leq \frac{d-1}{2}\).
+				\[\gamma_c(H) = {3\frac{d}{2} + 2\frac{d-1}{2} - 1} = {\frac{5}{2}d - 2}\].
+			
+			Vertex dominating short path cannot be counted twice. %%Ukazat graf s timhle odhadem
+			Let us bound price of connectivity of \(H\)
+				\[\frac{\frac{5}{2}d - 2}{l_3 + l_2 + 1} \leq {\frac{\frac {5}{2}d - 2}{d-1}} = 2 - \frac{d}{2(d-1)}.\]
+			The rightmost expression is strictly less than \(3-\frac{3}{d}\) for \(d > 7\).
+			For even \(d\) bound of \(\gamma_c(H)\) can be improved because \(l_3 \leq (d-1)/2\). %\frac{d-1}{2}.
+			Using this bound instead yields the same result for \(d > 3\).
+			\end{itemize}
+	\end{enumerate}
+
+        \goodbreak
+	\begin{enumerate}
+	\item [Case 6.]\(s = 0\) and \(v \not\in H\). We go through three subcases once more:
+		\begin{itemize}
+			\item The graph \(H[V(H) \cap P]\) contains at least one \(P_3\) and \(\gamma_c(H) \leq 3l\).
+				Due to the \(P_3\) in \(H[V(H) \cap P]\), the size of a dominating set is at least \(l + 1\).
+			\[\frac{\gamma_c(H)}{\gamma(H)} \leq {\frac{3l}{l + 1}} = 3 - \frac{3}{l + 1}\]
+		
+			For \(l < d - 1\), the rightmost expression is strictly less than price of connectivity  of \(H\).
+			In the case when \(l = d\) and at least one long path is shorter than 3, we are done
+			by Case 3.
+
+			Assume that each path from \(H[V(H) \cap P]\) is \(P_3\) and \(l = d-1\).
+			If this is the case then observe that size of minimum dominating set is equal to \(l + 2\).
+				\[\frac{\gamma_c(H)}{\gamma(H)} \leq {\frac{3l}{l + 2}} = 3 - \frac{6}{d + 1} < 3-\frac{3}{d}\]
+			The last inequality holds for all \(d\).	
+
+			\item Paths from \(H[V(H) \cap P]\) are adjacent to vertices from one part of \(B\).
+				
+			\[\frac{\gamma_c(H)}{\gamma(H)} \leq {\frac{3l + 1}{l + 1}} = 3 - \frac{2}{l + 1} 
+			\leq {3 - \frac{2}{\frac{d + 2}{2}}} = 3 - \frac{4}{d + 2} < 3 - \frac{3}{d}.\]
+
+			Since all paths are adjacent to vertices from one part of \(B\) the number of long paths is at most 
+			\(\frac{d}{2}\).
+			The last inequality holds for \(d > 6\).
+			For odd \(d\) the number \(l\) is at most \(\frac{d - 1}{2}\).
+			Using this bound instead we derive the same result for \(d > 3\).
+
+			\item All paths in \(H[V(H) \cap P]\) have length 2.
+
+			\[\frac{\gamma_c(H)}{\gamma(H)} \leq {\frac{2l + 1}{l}} = 2 - \frac{1}{l}\]
+			Inequality \(2 - \frac{1}{l} < 3 - \frac{3}{d}\) holds for \(d > 4\).
+		\end{itemize}
+	
+	\item [Case 7.]\(s = 1\) and \(v \not\in H\).
+		
+		Follows the same proof from Case 5.
+
+	\item [Case 8.] \(s \geq 2\) and \(v \not\in H\).
+		
+		This situation is identical to Case 4.
+\end{enumerate}
+\end{proof}
+The price of connectivity of graphs from \(\mathcal{T}_4\) is \(\frac{5}{2}\).
+We proved that \(G_5\) is critical; thus it cannot contain
+induced subgraphs with PoC greater than \(\frac{12}{5}\). In particular it cannot contain graphs with PoC equal to \(\frac{5}{2}\).
+The conjecture for \(k=4\) claims that PoC-near-perfect graphs for \(t=\frac{7}{3}\) are exactly \(\mathcal{T}_4\)-free graphs.
+However, \(G_5\) is a graph with price of connectivity greater than \(\frac{7}{3}\).
+Hence, we found an counterexample.
+
+In general we can derive the following corollary.
+\begin{cor}
+	For \(k > 5\) graphs \(G_{k + 1}\) from \Cref{DSpoc:4} are \(\mathcal{T}_{k}\)-free.
+\end{cor}
+\begin{myproof}
+	From \Cref{DSpoc:4} graphs \(G_{k + 1}\) are critical with price of connectivity equal to \(3 - \frac{3}{k+1}\).
+	By \Cref{ds:7} the price of connectivity of graphs from \(\mathcal{T}_{k}\) is equal to \(3 - \frac{2}{k}\).
+	The inequality \[{3 - \frac{3}{k+1}} < {3 - \frac{2}{k}}\]
+	holds for \(k > 2\). 
+	Thus, graphs from \(\mathcal{T}_{k}\) cannot be induced subgraphs of \(G_{k + 1}\).
+\end{myproof}
+
+\section{Conclusions}
+\Cref{chap3} discussed the characterization of PoC-near-perfect graphs for vertex cover for \(t = 1, \frac{4}{3}, \frac{3}{2}\)
+as given by Camby and Schaudt. The same authors propose a possible characterization of the PoC-near-perfect graphs for \(t \leq \frac{5}{3}\). 
+One possible direction of future research may be try to prove their conjecture and find a list of forbidden subgraphs for different values of \(t\).
+% We also investigate the structural properties of PoC-critical graphs. 
+In the same chapter, we have discussed the structural properties of PoC-cricital graphs; namely we observe that vertices from any minimum vertex cover have an independent neighborhood.
+We derive a similar result for a pair of adjacent vertices from a minimum vertex cover in \Cref{VC:morecomp}.
+The remaining question is whether the same property holds even for non-adjacent pair of vertices \(x, y\).
+
+In \Cref{chap4} we show critical graphs with the price of connectivity for a dominating set equal to \(3-\frac{3}{k}\).
+From the results listed in \Cref{chap4} about PoC-near-perfect graphs that in the interval \((1, 3)\), there exist rational values of the price of connectivity that
+cannot be attained by any PoC-near-perfect graph. 
+Interesting research problem to examine further could be to specify for which values of the price of connectivity 
+PoC-near-perfect graphs exist. 
+
+Notice that all PoC-near-perfect graphs do not contain long paths. 
+Their study may be helpful in a better understanding to the class of \(P_r\)-graphs.
+Recall that one of the few general characterizations of \(P_r\)-graphs (Theorem~\ref{DS:P-2freeT})
+was established during an investigation of PoC-near-perfect graphs.

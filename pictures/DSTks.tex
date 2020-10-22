@@ -1,0 +1,13 @@
+        \begin{tikzpicture}
+
+		\tikzstyle{vertex}  = [circle, minimum width=4pt, draw, inner sep=0pt, fill=white]
+		\node [vertex, label={left:$l_1$}](l1) at (0,0) {};
+		\node [vertex, fill=red, label={right:$l_2$}](l2) at (1,0) {};
+		\node [vertex, fill=red, label={right:$v_m$}](vm) at ($(l2) + (-45:1cm)$) {};
+		\node [vertex, label={left:$v_j$}](vj) at ($(l1) + (135:1cm)$) {};
+		\node [vertex, label={above:$x_1$}](x1) at ($(l2) + (95:1cm)$) {};
+		\node [vertex, fill=red, label={above:$x_2$}](x2) at ($(x1) + (30:1cm)$) {};
+		\draw (vm) -- (l2) -- (l1) -- (vj) -- (x1)--(x2);
+
+	\end{tikzpicture}
+

@@ -1,0 +1,37 @@
+%%% A template for a simple PDF/A file like a stand-alone abstract of the thesis.
+
+\documentclass[12pt]{report}
+
+\usepackage[a4paper, hmargin=1in, vmargin=1in]{geometry}
+\usepackage[a-2u]{pdfx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{textcomp}
+
+\begin{document}
+Vrcholové pokrytí grafu \(G\) je podmnožina vrcholů, která obsahuje
+alespoň jeden vrchol z~každé hrany.  Velikost nejmenšího vrcholového
+pokrytí se značí \(\tau\). Pokud navíc po vrcholech z vrcholového
+pokrytí chceme, aby indukovaly souvislý podgraf, pak se tato množina
+nazývá souvislé vrcholové pokrytí. Velikost minimálního vrcholového
+pokrytí se značí \(\tau_c\).  Rozhodovací verze obou problému jsou
+NP-úplné.
+
+K lepšímu porozumění vztahů obou grafových invariantů autoři Cardinal
+and Levy zadefinovali cenu souvislosti grafu jako poměr čísel
+\(\tau_c\) a \(\tau\). Není překvapující, že rozhodnout, zda cena
+souvislosti pro daný graf je nejvýše rovna číslu \(t\), je NP-těžký
+problém.  Myšlenku ceny souvislosti je možno zobecnit i pro jiné
+grafové vlastnosti, jako například dominující množinu. Koncept ceny
+souvislosti už byl zkoumán v předchozí literatuře, z čehož některé
+články se soustředí na tzv. kritické grafy, což jsou grafy, kde cena
+souvislosti je ostře větší než cena souvislosti každého indukovaného
+podgrafu.
+
+Tato práce obsahuje rozšířený přehled současného vědění v oblasti ceny
+souvislosti.  Dále se soustředí na strukturální vlastnosti kritických
+grafů a rozebírá možnou charakterizaci grafů, ve kterých cena
+souvislosti za dominující množinu je nejvýše $\frac{7}{3}$ pro každý
+indukovaný podgraf.
+\end{document}

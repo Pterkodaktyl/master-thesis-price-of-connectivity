@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+
+                \tikzstyle{vertex}  = [circle, minimum width=4pt, draw, inner sep=0pt, fill=white]
+                \node [vertex, fill=red, label={left:$l_1$}](l1) at (0,0) {};
+                \node [vertex, fill=red, label={right:$l_2$}](l2) at (1,0) {};
+                \node [vertex, fill=red, label={left:$w$}](w) at ($(l1) + (110:1cm)$) {};
+                \node [vertex, label={left:$v_j$}](vj) at ($(w) + (30:1cm)$) {};
+                \node [vertex, label={above:$w^{''}$}](w1) at ($(vj) + (30:1cm)$) {};
+                \node [vertex, fill=red, label={above:$w^{'}$}](w2) at ($(w1) + (30:1cm)$) {};
+                \draw (l2) -- (l1);
+		\draw  (w) -- (vj) -- (w1)--(w2);
+		\draw [dashed] (w) -- (l1);
+		\draw [dashed] (w2) -- (l2);
+\end{tikzpicture}

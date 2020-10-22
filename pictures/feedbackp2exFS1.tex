@@ -1,0 +1,43 @@
+\begin{tikzpicture}
+
+                \tikzstyle{vertex}  = [circle, minimum width=4pt, draw, inner sep=0pt, fill=white]
+                \begin{scope}[shift={(1,3)}]
+
+                \newdimen\R
+                \R=1cm
+                        \foreach \x in {0, 30, 60, 90}
+                       {
+                        \node [vertex](w\x) at (\x:\R) {};
+                       }
+
+                        \fill [red] (w0) circle (1.8pt);
+                        \fill [red] (w60) circle (1.8pt);
+
+                        \draw (w0) -- (w30);
+                        \draw (w60) -- (w90);
+                \end{scope}
+
+                \foreach \x in {0, 1,...,3}
+                {
+
+                        \ifnum \x<3
+                                \node [vertex, fill=red](v\x) at (0, \x) {};
+                                \draw (v\x) -- ++(0,1);
+                        \else
+                                \node [vertex](v\x) at (0, \x) {};
+
+                        \fi
+
+                        \ifnum \x=0
+                                \node [vertex](u\x) at (1, \x) {};
+                                \draw (u\x) -- (v\x);
+                        \fi
+
+                        \ifnum \x=2
+                                \node [vertex](u\x) at (1, \x) {};
+                                \draw (u\x) -- (v\x);
+                        \fi
+
+                }
+        \end{tikzpicture}
+

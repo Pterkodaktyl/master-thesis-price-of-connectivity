@@ -1,0 +1,44 @@
+\def\width{1.65}
+\def\height{-1.7}
+\def\xdist{1}
+\def\ydist{1}
+\def\lbdist{0.23}
+\begin{tikzpicture}
+        \tikzstyle{vertex}  = [circle, minimum width=4pt, draw, inner sep=0pt, fill=white]
+        \node [vertex, label=left:{\scriptsize$x$}](x) at (1, 1) {};
+        \node [vertex, label=right:{\scriptsize$y$}](y) at (2, 1) {};
+	\node [vertex, label=above:{\scriptsize$u$}](u) at ($(x) + (0, 3)$) {};
+	\node [vertex, label=above:{\scriptsize$v$}](v) at ($(y) + (0, 3)$) {};
+        %%Subgraphs
+	\draw ($(u)!0.5!(v)$) ellipse (1.5cm and 0.6cm);
+	\draw[rounded corners] ($(x) + (-\width, \height)$) rectangle ($(x) + (0.3, 1.5)$) {};
+        \draw[rounded corners] ($(y) + (-0.3, \height)$) rectangle ($(y) + (\width, 1.5)$) {};
+        %%Components
+	\node (x1) at ($(x) + (-\xdist,  -\ydist)$) {};
+	\node (x2) at ($(x) + (-\xdist,  \ydist)$) {};
+	\node (ddx) at ($(x1)!0.5!(x2)$) {$\vdots$};
+	\draw [fill=white](x1) ellipse (0.25cm and 0.35cm);
+	\draw [fill=white](x2) ellipse (0.25cm and 0.35cm);
+	
+	\node (y1) at ($(y) + (\xdist,  -\ydist)$) {};
+        \node (y2) at ($(y) + (\xdist,  \ydist)$) {};
+        \node (ddy) at ($(y1)!0.5!(y2)$) {$\vdots$};
+        \draw [fill=white](y1) ellipse (0.25cm and 0.35cm);
+        \draw [fill=white](y2) ellipse (0.25cm and 0.35cm);
+
+        %%Components labels
+        \node (ld) at ($(v) + (0, 0.8)$) {\scriptsize$D$};
+	%%\node (lh2) at ($(y) + (\width, 1.5) + (0,\lbdist)$) {\scriptsize$H_2$};
+	%%\node (lh1) at ($(x) + (-\width + 0.3, 1.5 +\lbdist)$) {\scriptsize$H_1$};
+
+        \begin{scope}[on background layer]
+     		\draw (x)--(y);
+        	\draw (u)--(v);
+        	\draw (v)--(y); 
+		\draw (u)--(x);
+		\draw (x)--(x1);
+		\draw (x)--(x2);
+		\draw (y)--(y1);
+		\draw (y)--(y2);
+	\end{scope}
+\end{tikzpicture}

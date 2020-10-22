@@ -1,0 +1,298 @@
+\chapter{Introduction}
+We say that a set of vertices is a \emph{vertex cover} of a graph 
+if it contains at least one endpoint from each edge. 
+The size of the smallest vertex cover is called the vertex cover number.
+Karp in 1972 placed the decision version of vertex cover among first 21 NP-complete problems.
+Many variants of vertex cover have been studied since in literature; one of those is \emph{connected vertex cover}.
+A connected vertex cover of a graph is a vertex cover that induces a single connected subgraph. 
+The connected vertex cover number is the size of a minimum connected vertex cover.
+This problem aside its theoretical importance has many real-world applications for example in design of wireless networks.
+
+Let us consider the following model: the nodes in the network are connected via transmission links.
+The signal decreses with transmission distance. 
+To counteract this we can equip nodes with relay stations amplifying the signal.
+We want to place relay stations in such a way that every transmission link is adjacent to a relay station
+and any pair of relay stations has to be connected by a path containing only other relay stations.
+Our budget is limited so we wish to minimize the number of relay stations used.
+The solution of this problem is exactly the minimum connected vertex cover.
+
+The mininum connected vertex cover can be also used to solve top right access point minimum length corridor problem (TRA-MLC for short.)\cite{Priyadarsini07}.
+On the input is a rectangle \(F\) partioned into rectangular polygons \(P_1, \dots, P_k\).
+A set \(S\) of line segments lying along the boundary of \(F\) and along boundaries of polygons is called a \emph{corridor}. 
+The \emph{length of the corridor} \(S\) is a sum of lengths of all line segments included in \(S\). 
+Our goal is to find a corridor with a minimum length such that line segments form a tree and contain at least one point from \(F\) and each \(P_i\).
+A variant of this problem, when \(S\) has to include top-right corner of the boundary of \(F\),
+is called \emph{top right access point minimum length corridor problem}.
+TRA-MLC has applications in laying electrical wiring or optic-fiber cables in floor plans.
+
+We can imagine that \(F\) represents a floor plan and \(P_i\) are individual rooms. 
+We have to lay optic-fiber cables in order to grant internet access to every room. 
+Such cables are expensive, so we would like the length of the used cable to be as small as possible.
+
+A natural question to investigate is the relation between vertex cover number and connected vertex cover number.
+For that purpose Cardinal and Levy define the \emph{price of connectivity} to be a ratio between the connected vertex cover number and the vertex cover number.
+Deciding for a given graph whether price of connectivity is at least \(r\) is NP-hard.
+The price of connectivity can be generalized to any graph problem with a meaningful connected variant.
+Authors of \cite{ChiarelliHartinger18} demonstrate how to use known price of connectivity of various problems to design polynomial time algorihms.
+
+Camby and Schaudt in \cite{CambyCardinalFioriniSchaudt14} coin the term \emph{PoC-Near-perfect graphs}.
+These are graphs in which price of connectivity for vertex cover is bounded by a fixed number \(t\) for any induced subgraph.
+They propose a characterization of such graphs for \(t \leq \frac{3}{2}\) in the terms of forbidden induced subgraphs.
+Also they define critical graphs, which are graphs with price of connectivity stricly greater than their every induced subgraph.
+The same researchers in \cite{CambySchaudt14} in a similar fashion study the price of connectivity of dominating set.
+
+The results from \cite{Bonamy18} imply that there are no PoC-near-perfect graphs for the dominating set with price of connectivity strictly between
+2 and \(\frac{7}{3}\). 
+Motivated by these results one can ask if there are no PoC-near-perfect graphs with price of connectivity in the interval \((3 -\frac{2}{k-1}, 3-\frac{2}{k})\).
+In this work, we show that is not true by constructioning critical graphs with the price of connectivity equal to \(3 - \frac{3}{k}\).
+
+\section{Contents of this thesis}
+In the rest if this chapter we will provide basic definitions, examine properties of vertex cover and formally define the price of connectivity.
+In the \Cref{chap2} we will show applications of price of connectivity in polynomial algorithms for minimum connected vertex cover and minimum 
+connected feedback vertex set from \cite{ChiarelliHartinger18}.
+In the \Cref{chap3} we will closely examine price of connectivity of vertex cover. To be more specific we will discuss results by Camby and Schaudt. 
+The second half of the chapter focuses on deriving new structural properties of critical graphs.
+In the \Cref{chap4} we would like to refresh basic properties 
+of dominating sets and present results on the price connectivity of dominating set.
+Finally we will present construction of critical graphs with price of connectivity
+equal to \(3 - \frac{3}{k}\).
+
+\section{Notation}
+We consider only finite undirected graphs without multiple edges and loops.
+Let \(G=(V,E)\) be a graph, with \(V\) being set of vertices and \(E\) set of edges.
+Let \(n = |V|\). 
+The \emph{neighborhood} of a vertex \(u\) is defined as \(N(u) := \{v \in V | uv \in E\}\).
+The \emph{closed neighborhood} of \(u\) is \(N[u]:=N(u) \cup \{u\}\). 
+A vertex \(u\) is a \emph{cut vertex} if its removal increases the number of connected components.
+Similarly, an edge \(uv\) is a \emph{bridge} if its deletion increases the number of connected components.
+For a set \(S \subseteq V\) we write \(G[S]\) to denote the subgraph of \(G\) induced by \(S\), i.e. a graph with the vertex set \(S\), 
+where vertices are adjacent if and only if they are adjacent in \(G\).
+A vertex subset \(S\) is \emph{independent} if every pair of vertices from \(S\) is non-adjacent.
+The independence number \(\alpha(G)\) is the size of a maximum independent set.
+
+We use the following standard notation to denote some special graphs:
+\begin{itemize}
+	\item \(P_k\) is a path on \(k\) vertices.
+	\item \(C_k\) is a cycle on \(k\) vertices.
+	\item \(K_{m,n}\) is a complete bipartite graph with parts of size \(m\) and \(n\).
+	\item \(K_m\) is a clique on \(m\) vertices.
+	\item \(H + G\) is the union of two disjoint graphs \(H\) and \(G\). In particular \(sG\) denotes
+		the union of \(s\) disjoint copies of \(G\).
+\end{itemize}
+In this work we will focus mainly on \(H\)-free graphs.
+\begin{defn}[H-free graph]\label{def1}
+	Let \(G\) and \(H\) be two graphs. We say that \(G\) is \(H\)-free if it does not contain graph \(H\) as its induced subgraph.
+\end{defn}
+Moreover, if \(G\) neither contains \(H_1\) nor \(H_2\) as induced subgraphs we say that \(G\) is \((H_1, H_2)\)-free.
+
+Let us show a few examples.
+First, let us prove that graph \(G\) is \(P_3\)-free if and only if every connected component of \(G\) is a clique.
+If \(G\) does not contain \(P_3\) it is clear that \(G\) is a union of cliques.
+For the converse suppose that there is a component \(C\) that is not a clique. Pick two non-adjacent vertices from \(C\).
+The shortest path between these two vertices contains at least two edges and thus \(P_3\).
+
+Next, we claim that complete bipartite graphs can be characterized as set of all \((K_3, \overline{P_3})\)-free graphs.
+From the previous proof follows that complement of \(P_3\)-free graph is a graph, in which vertices can be partitioned into independent sets
+such that edges are between any pair of vertices from different independent set.
+To ensure that the number of these independent sets is two, it is enough to forbid \(K_3\) as an induced subgraph.  
+
+Finally the class of \(P_4\)-free graphs are cographs. The proof of this is more involved and we refer to \cite{Corneil81}.
+
+\section{Vertex cover}
+\begin{defn}[Vertex cover]
+	A \emph{vertex cover} of a graph \(G\) is a set of vertices including at least one endpoint of every edge.
+\end{defn}
+The vertex cover of the smallest size is called \emph{minimum}. The vertex cover number \(\tau(G)\) is the size of a minimum vertex cover.
+Vertex cover is \emph{minimal} if its every proper subset is not vertex cover.
+A minimum vertex cover is always minimal, but not every minimal vertex cover is minimum. For an illustration see Example~\ref{ex1}.
+
+Vertex cover is closely related to independent set.
+\begin{obs}
+	A vertex set \(S\) is a vertex cover if and only if \(V(G) \setminus S\) is an independent set.
+\end{obs}
+\begin{myproof}
+	If \(V(G) \setminus S\) is independent, then there are no edges with both endpoints in \(G \setminus S\) 
+	and thus each edge is incident to a vertex from \(S\).
+	Conversely, suppose that \(S\) is a vertex cover. By definition all edges from \(E(G)\)
+	have endpoints in \(S\) so \(V(G) \setminus S\) is independent.
+\end{myproof}
+
+\begin{obs}
+	A vertex cover \(S\) is minimal if and only if \(V(G) \setminus S\) is a maximal independent set.
+\end{obs}
+\begin{myproof}
+	By the previous observation \(S\) is a vertex cover if and only \(V(G) \setminus S\) is independent.
+	Suppose that \(S\) is a minimal vertex cover and \(V(G) \setminus S\) is not a maximal independent set.
+	Then there is a vertex \(v\) that \((V(G) \setminus S) \cup \{v\}\) is also independent.
+	However, \(S \setminus \{v\}\) is vertex cover; contradiction with minimality of \(S\).
+	On the other hand assume that \(G \setminus S\) is maximal independent set and that 
+	\(G\) is not minimal vertex cover. 
+	Since \(S\) is not a minimal vertex cover, we can find a vertex \(v\) s.t. \(S \setminus {v}\)
+	is vertex cover of \(G\). The set \((V(G) \setminus S) \cup \{v\}\) is independent
+	because \(v\) does not have a neighbor in \(V(G) \setminus S\). 
+	That contradicts the maximality of \(V(G) \setminus S\).
+\end{myproof}
+In other words we have just shown that finding the minimum vertex cover is equivalent to finding maximum independent set.
+As an immediate corollary, we see that the number of vertices of \(G\) is equal to \(\tau(G) + \alpha(G)\).
+
+\begin{figure}[h]
+\centering
+\input{pictures/vcexample}
+\caption{}
+\end{figure}
+\label{vc:example}
+
+\begin{example}\label{ex1}
+	Let \(G\) be a graph from Figure \ref{vc:example}.
+\begin{enumerate}
+	\item Set \(\{e, b, c, h\}\) is a minimum vertex cover of \(G\): \(\tau(G) = 4\).
+	\item Set \(\{a, f, g, d\}\) is a maximum indepedent set of \(G\): \(\alpha(G)=4\).
+	\item Set \(\{a, f, c, g, d\}\) is a minimal vertex cover of \(G\).
+\end{enumerate}
+\end{example}
+
+The size of minimum vertex cover can be bounded from below by the size of maximum matching.
+It is not difficult to see that the size of the minimum vertex cover is at least the maximum number of edges in a matching.
+Each vertex in the minimum vertex cover is incident with at most one edge from a matching.
+For bipartite graphs these two numbers are equal by the K\"onig's theorem.
+Recall that maximum matching can be found in polynomial time in any graph \(G\) by Edmonds's blossom algorithm \cite{Edmonds65}.
+This famous result implies that in bipartite graphs finding a minimum vertex cover is polynomially solvable.
+
+\section{Connected vertex cover}
+Now we formally define the notion of connected vertex cover which is central term in our work.
+\begin{defn}[Connected vertex cover]
+	A \emph{connected vertex cover} is a vertex cover that induces a connected subgraph of \(G\).
+	We denote by \(\tau_c(G)\) size of a minimum connected vertex cover.
+\end{defn}
+
+The size of minimum connected vertex cover is at least equal to the size of minimum vertex cover.
+We can imagine that it is possible to find a minimum connected vertex cover by only extending minimum
+vertex covers; however that is not the case. See Figure \ref{VCnotCVC} depicting a graph in which the minimum connected vertex cover
+does not include any minimum vertex cover.
+
+\begin{figure}[b]
+\centering
+\begin{minipage}{.45\textwidth}
+        \centering
+        \input{pictures/VCnotCVCa}
+        \caption*{}
+        %%\label{fig:fex}
+\end{minipage}
+\begin{minipage}{.45\textwidth}
+        \centering
+        \input{pictures/VCnotCVCb}
+        \caption*{}
+        %%\label{fig:fsprime}
+\end{minipage}
+	\caption{A graph in which the minimum connected vertex cover contains no minimum vertex cover.
+	Minimum connected vertex cover is depicted by black vertices on the right.
+	Black and white vertices on the left-hand picture represent two minimum vertex covers. }
+	\label{VCnotCVC}
+\end{figure}
+
+\begin{obs}
+A graph \(G\) on \(n\) vertices has a connected vertex cover of size \(k\) if and
+only if \(G\) contains the star \(K_{1,n-k}\) as a contraction.
+\end{obs}
+
+\begin{myproof}
+	Let \(S\) be a connected vertex cover of size \(k\). 
+	Contracting every edge in \(S\) transforms \(G\) into \(K_{1, n-k}\).
+	If \(G\) contains \(K_{1, n-k}\) as a contraction, then
+	\(G\) can be partitioned into induced connected subgraphs \(A, B_1, B_2, \dots, B_{n-k}\)
+	in such a way that for each \(B_i\) there is at least one edge incident to a vertex from \(A\)
+	and no edges between vertices from different \(B_i\).
+	Move each vertex from \(B_i\) adjacent to vertex from \(A\) to \(A\) until all subgraphs \(B_i\)
+	contain only one vertex. Such modified set \(A\) is connected and vertices from \(A\) covers all edges from \(G\).
+	Notice that \(|V(A)| \leq k\). So \(A\) is now connected vertex cover of \(G\) with size at most \(k\).
+\end{myproof}
+By using this observation we can reduce the size of input graph while looking for a minimum vertex cover.
+Edge \(uv\) can be contracted whenever both its endpoints belong to a connected vertex cover.
+This idea was used in the algorithm designed in \cite{JohnsonPaesaniPaulusma20}.
+
+Decision versions of both problems are defined as follows:
+
+\begin{problem}
+	\problemtitle{Vertex Cover (VC)}
+        \probleminput{A graph \(G = (V,E)\) and a positive integer \(k\)}
+        \problemquestion{Does \(G\) has a vertex cover \(S\), such that, \(|S|\leq k\)?}
+\end{problem}
+
+\begin{problem}
+	\problemtitle{Connected Vertex Cover (CVC)}
+	\probleminput{A graph \(G = (V,E)\) and a positive integer \(k\)}
+	\problemquestion{Does \(G\) has a connected vertex cover \(S\), such that, \(|S|\leq k\)?}
+\end{problem}
+
+Finding a minimum vertex cover is NP-complete problem in planar graphs. %%Zdroje
+On the other hand it becomes polynomially solvable for special classes of graphs: bipartite graphs (as we mentioned earlier), 
+chordal graphs \cite{Gavril74}, series-parallel graphs \cite{TakamizawaKazuhikoNishizeki82}.
+
+Connected vertex cover has been in 1977 introduced and closely investigated by \citet{GareyJohnson77}, where they established its NP-completeness
+for planar graphs of maximal degree at most \(4\).
+\citet{FernauManlove09} strengthen this result for planar bipartite graphs with degree at most 4. 
+NP-completeness of a connected vertex cover was proved for 2-connected planar graphs with maximal degree 4 by \citet{PriyadarsiniHemalatha08}. 
+Same result was showed by \citet{WatanabeKajitaOnaga91} even for 3-connected graphs.
+Minimum connected vertex cover is polynomially solvable for chordal graphs \cite{EscoffierGourv`esMonnot10}, graphs with maximal degree at most three and trees \cite{Ueno88}.
+
+In the brief overview from above we can notice that for bipartite graphs complexities of these two problems differ.
+Interesting question to study is to find for which graph classes complexities of minimum vertex cover and connected minimum vertex cover
+coincide.
+
+Now we turn our attention to the graphs with one forbidden subgraph: \(H\)-free graphs.
+\citet{Munaro17} prove that CVC is NP-complete in \(H\)-free graphs if \(H\) contains induced cycle or claw (\(K_{1,3}\)).
+On the other hand VC becomes tractable if \(H\) contains a claw \cite{Sbihi80}\cite{Minty80}. 
+Even among \(H\)-free graphs we can found class for which complexities of both problems are not the same. 
+
+It remains to examine graphs without induced linear forest e.g. \(P_r\)-free graphs. 
+Recently \citet{JohnsonPaesaniPaulusma20} create polynomial algorithm for CVC in \((sP_1 + P_5)\)-free graphs 
+and \citet{Grzesik19} prove polynomiality of VC in \((sP_1 + P_6)\)-free graphs. 
+Complexity of CVC for \(r \geq 6\) and of VC \(r \geq 7\) is still unknown.
+
+\section{Price of connectivity} 
+Different complexity results for these two problems rise the question how graph invariants \(\tau_c\) and \(\tau\) are related. 
+To investigate that we define concept of the price of connectivity.
+\begin{defn}[Price of connectivity]
+	The \emph{price of connectivity} for a class of graphs \(\mathcal{G}\) is defined as the maximal ratio \(\frac{\tau_c(G)}{\tau(G)}\) over all graphs \(G \in \mathcal{G}\).
+\end{defn}
+
+The notion of the price of connectivity has been introduced by \citet{CardinalLevy10} as defined above. 
+Also they proved that PoC is upper-bounded by \(\frac{2}{1 + \epsilon}\) in graphs with average degree \(\epsilon n\).
+The price of connectivity can be generalized for any graph property for which its connected variant makes sense.
+\begin{defn}[Price of connectivity for property \(\pi\)]
+	For a class of graphs \(\mathcal{G}\) the \emph{price of connectivity for property \(\pi\)} is defined as \(\max_{G \in \mathcal{G}}(\frac{\pi(G)}{\pi_c(G)})\), 
+	where \(\pi(G)\) denotes the size of a minimum set satisfying property \(\pi\) and similarly \(\pi_c(G)\) is the size of a minimum connected set with property \(\pi\).
+\end{defn}
+The price of connectivity was further studied for dominating set, feedback vertex set, face hitting set and odd cycle transversal set.
+Later we will thoroughly investigate the price of connectivity of vertex cover and dominating set.
+%%Doplnit citace of clanky
+
+\section{Complexity}
+Deciding whether the price of connectivity for vertex cover is at most \(t\) for given graphs is NP-hard. 
+However, theorem stated below implies that is not clear whether it lies in NP. 
+
+A complexity class \(\Theta_2^p\) contains decision problems which are computable in polynomial time by 
+a deterministic Turing machine which is allowed to use NP-oracle \(O(\log(n))\) times, where \(n\) is the size of the input.
+Examples of \(\Theta_2^p\)-complete problems are 
+Odd-max-true-3SAT and Min-card-vertex-cover compare defined below. For more details about the class \(\Theta_2^p\) we refer to \cite{Spakowski00}.
+
+\begin{problem}
+        \problemtitle{Odd-max-true-3SAT}
+	\probleminput{3-CNF formula \(F\)}
+        \problemquestion{Is the maximum number of 1’s in satisfying truth assignments for \(F\) odd?}
+\end{problem}
+
+\begin{problem}
+        \problemtitle{Min-card-vertex cover compare}
+        \probleminput{Two graphs \(G_1 = (V_1,E_1)\) and  \(G_2 = (V_2,E_2)\)}
+	\problemquestion{Is true that \(\tau(G_1) < \tau(G_2)\)?}
+\end{problem}
+
+It is easy to see that PoC problem belongs to \(\Theta_2^p\). 
+We can use oracle to determine \(\tau(G)\) and \(\tau_c(G)\) by binary search.
+
+\begin{thm}[\citet{CambyCardinalFioriniSchaudt14}]\label{compl:01}
+	Given any connected graph \(G\) deciding whether \(\frac{\tau(G)}{\tau_c(G)} \leq r\)
+	is \(\Theta_2^p\)-complete.
+\end{thm}
+Authors of \cite{CambyCardinalFioriniSchaudt14} prove this result by reduction from Min-Card-Vertex-cover compare.

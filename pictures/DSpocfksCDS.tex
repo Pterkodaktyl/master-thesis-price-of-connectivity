@@ -1,0 +1,11 @@
+\begin{tikzpicture}%%minCDS
+                \tikzstyle{vertex}  = [circle, minimum width=4pt, draw, inner sep=0pt, fill=white]
+                \node [vertex, fill=black](x) at (3,3) {};
+                \foreach \i in {1,...,4}
+                {
+                        \node [vertex](a\i) at ($(x)+(({45 + \i*90}:2cm)$) {};
+                        \node [vertex, fill=black](b\i) at ($(a\i)!0.5!(x)$) {};
+                        \draw (b\i) -- (x);
+                        \draw (a\i) -- (x);
+                }
+\end{tikzpicture}

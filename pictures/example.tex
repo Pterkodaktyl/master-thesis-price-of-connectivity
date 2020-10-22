@@ -1,0 +1,47 @@
+%%\documentclass[tikz,border=3mm]{standalone}
+%%\usetikzlibrary{shapes,snakes}
+%%\usetikzlibrary{backgrounds}
+%%\usetikzlibrary{calc}
+%%\begin{document}
+        \begin{tikzpicture}
+                %%\tikzstyle{vertex}      = [circle, minimum width=4pt, draw, inner sep=0pt, fill=white]
+
+               \begin{scope}[every node/.style={circle,thin,draw, fill=white}]
+		\node (v) at (1, 1) {};
+                \node (v1) at (0, 2) {};
+                \node (v2) at (2, 2) {};
+                \node (v3) at (2, 0) {};
+		\node (v4) at (0, 0) {};
+
+                \foreach \y in {2,3}
+		{
+			\foreach \z in {1,2,3}{
+				\node at ($(v\y)+(\z,0)$) {};
+			}
+		}
+
+		 \foreach \y in {1,4}
+                {
+                        \foreach \z in {1,2,3}{
+                                \node at ($(v\y)-(\z,0)$) {};
+                        }
+                }
+
+		\end{scope}
+
+		\begin{scope}[on background layer][every node/.style={fill=white,circle}, every edge/.style={draw=red,very thick}]
+			\draw (v2)-- ++(1,0)-- ++(1,0)-- ++(1,0);
+                	\draw (v3)-- ++(1,0)-- ++(1,0)-- ++(1,0);
+			\draw (v1)-- ++(-1,0)-- ++(-1,0)-- ++(-1,0);
+			\draw (v4)-- ++(-1,0)-- ++(-1,0)-- ++(-1,0);
+
+			\draw (v1)--(v2)--(v3)--(v4)--(v1);
+			\foreach \x in {1,...,4}
+                        	\draw (v) -- (v\x);
+
+		\end{scope}
+
+	\end{tikzpicture}
+%\end{document}
+
+
